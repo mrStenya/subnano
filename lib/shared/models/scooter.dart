@@ -15,6 +15,8 @@ class Scooter extends Equatable {
     this.batteryHours,
     this.weightKg,
     this.pickupPointId,
+    this.pickupPointName,
+    this.pickupPointAddress,
   });
 
   final String id;
@@ -29,7 +31,14 @@ class Scooter extends Equatable {
   final double? weightKg;
   final String? pickupPointId;
 
+  // Joined from pickup_points — populated only in detail queries
+  final String? pickupPointName;
+  final String? pickupPointAddress;
+
+  bool get isAvailable => status == ScooterStatus.available;
+
   factory Scooter.fromJson(Map<String, dynamic> json) {
+    final pp = json['pickup_points'] as Map<String, dynamic>?;
     return Scooter(
       id: json['id'] as String,
       name: json['name'] as String,
@@ -42,6 +51,8 @@ class Scooter extends Equatable {
       batteryHours: (json['battery_hours'] as num?)?.toDouble(),
       weightKg: (json['weight_kg'] as num?)?.toDouble(),
       pickupPointId: json['pickup_point_id'] as String?,
+      pickupPointName: pp?['name'] as String?,
+      pickupPointAddress: pp?['address'] as String?,
     );
   }
 

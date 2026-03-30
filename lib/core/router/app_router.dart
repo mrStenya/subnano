@@ -71,7 +71,7 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: ':id',
-                builder: (_, state) => ScooterDetailsPage(
+                builder: (_, state) => ScooterDetailsPageWrapper(
                   scooterId: state.pathParameters['id']!,
                 ),
                 routes: [
