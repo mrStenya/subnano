@@ -3,16 +3,39 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../shared/models/booking.dart';
 
-final bookingRepositoryProvider = Provider<BookingRepository>(
-  (ref) => BookingRepository(Supabase.instance.client),
+// ---------------------------------------------------------------------------
+// Abstract interface
+// ---------------------------------------------------------------------------
+abstract class IBookingRepository {
+  Future<String> createDraftBooking({
+    required String scooterId,
+    required DateTime startDate,
+    required DateTime endDate,
+    required double totalAmount,
+    String? pickupPointId,
+  });
+
+  Future<void> confirmBooking(String bookingId);
+
+  Future<Booking> fetchBookingById(String bookingId);
+}
+
+// ---------------------------------------------------------------------------
+// Provider
+// ---------------------------------------------------------------------------
+final bookingRepositoryProvider = Provider<IBookingRepository>(
+  (ref) => SupabaseBookingRepository(Supabase.instance.client),
 );
 
-class BookingRepository {
-  BookingRepository(this._client);
+// ---------------------------------------------------------------------------
+// Supabase implementation
+// ---------------------------------------------------------------------------
+class SupabaseBookingRepository implements IBookingRepository {
+  SupabaseBookingRepository(this._client);
 
   final SupabaseClient _client;
 
-  /// Creates a booking with status=draft. Returns the new booking id.
+  @override
   Future<String> createDraftBooking({
     required String scooterId,
     required DateTime startDate,
@@ -39,7 +62,7 @@ class BookingRepository {
     return result['id'] as String;
   }
 
-  /// Confirms a booking after successful payment.
+  @override
   Future<void> confirmBooking(String bookingId) async {
     await _client
         .from(AppConstants.bookingsTable)
@@ -47,6 +70,7 @@ class BookingRepository {
         .eq('id', bookingId);
   }
 
+  @override
   Future<Booking> fetchBookingById(String bookingId) async {
     final data = await _client
         .from(AppConstants.bookingsTable)

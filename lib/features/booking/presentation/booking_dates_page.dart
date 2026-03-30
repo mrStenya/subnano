@@ -101,8 +101,9 @@ class _BookingDatesPageState extends ConsumerState<BookingDatesPage> {
     if (_startDate == null || _endDate == null) return;
     if (_availabilityError != null) return;
 
-    ref.read(bookingDraftProvider.notifier).update(
+    ref.read(bookingDraftProvider.notifier).set(
           scooterId: widget.scooterId,
+          scooterName: scooter.name,
           startDate: _startDate!,
           endDate: _endDate!,
           pricePerDay: scooter.pricePerDay,
