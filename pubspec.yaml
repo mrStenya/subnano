@@ -1,0 +1,51 @@
+name: subnano
+description: Underwater scooter rental booking app
+version: 1.0.0+1
+publish_to: "none"
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Navigation
+  go_router: ^13.2.0
+
+  # Supabase
+  supabase_flutter: ^2.5.0
+
+  # Stripe payments (client-side token only, no secret keys)
+  flutter_stripe: ^10.1.1
+
+  # State management
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
+
+  # Local storage
+  shared_preferences: ^2.2.3
+
+  # UI utilities
+  cached_network_image: ^3.3.1
+  intl: ^0.19.0
+  shimmer: ^3.0.0
+
+  # Utils
+  equatable: ^2.0.5
+  uuid: ^4.4.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.2
+  build_runner: ^2.4.9
+  riverpod_generator: ^2.4.0
+  custom_lint: ^0.6.4
+  riverpod_lint: ^2.3.10
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/icons/
